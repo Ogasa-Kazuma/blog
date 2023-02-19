@@ -9,24 +9,51 @@ function Hello(){
   console.log("hello");
 }
 
-function FetchMessage(){
+async function FetchMessage(props){
   let apiResult;
   console.log("saaaa")
-    apiResult = (fetch(
+  try{
+    apiResult = (await fetch(
                              "https://ctuvwoyayc.execute-api.ap-northeast-1.amazonaws.com/dev-message-app/messages"
                                   ,{
                                     method: "GET"
                                   })
                     
-  ).catch(err =>{
+  )}catch(err){
     console.log(err)
-  })
-  console.log(apiResult)
+  }
+  console.log(apiResult);
+  props = await apiResult.json();
+  console.log(props);
 }
+
+async function PostMessage(props){
+  let apiResult;
+  let message = {
+    messageID: "from_next",
+    content: "my wonder"
+  }
+  try{
+    apiResult = (await fetch(
+                             "https://ctuvwoyayc.execute-api.ap-northeast-1.amazonaws.com/dev-message-app/messages"
+                                  ,{
+                                    method: "POST",
+                                    body: JSON.stringify(message)
+                                  })
+                    
+  )}catch(err){
+    console.log(err)
+  }
+  console.log(apiResult);
+  props = await apiResult.json();
+  console.log(props);
+}
+
+
 
 export default function FirstPost(props) {
   const arr = ["str1", "str2", "str3"];
-  const content = "message-content";
+  let content = "message-content";
   return (
     
     <Layout>
@@ -39,7 +66,8 @@ export default function FirstPost(props) {
           arr.map(value => {return <div> aaa{value} </div>})
         }
       </div>
-      <button onClick={() => {console.error("onclick")}/*() => {Hello()}*/}>{content}</button>
+      <button onClick={() => FetchMessage({content})}>{content}</button>
+      <button onClick={() => PostMessage({content})}>post message test</button>
     </Layout>
   );
 }
