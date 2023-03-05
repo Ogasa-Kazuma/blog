@@ -49,25 +49,27 @@ async function PostMessage(props){
   console.log(props);
 }
 
+function TitleBlock(){
+  return(
+    <div className="flex flex-row justify-center items-center w-full bg-gray-500 text-center">
+      <span className = "absolute align-center font-thin text-5xl text-white">大森Life</span>
+      <img src="img/flower.jpg" className="w-full opacity-30"/>
+    </div>
+  )
+}
 
+function PostLists(){
+  return(
+    <div>
+    </div>
+  )
+}
 
 export default function FirstPost(props) {
-  const arr = ["str1", "str2", "str3"];
-  let content = "message-content";
   return (
-    
-    <Layout>
-      <Head>
-        <title>First Post</title>
-      </Head>
-      <h1 className="h-64 w-full text-3xl font-thin bg-sky-100/50 underline">First Post</h1>
-      <div onMouseDown={() => {console.log("onclick")}}>
-        {
-          arr.map(value => {return <div> aaa{value} </div>})
-        }
-      </div>
-      <button onClick={() => FetchMessage({content})}>{content}</button>
-      <button onClick={() => PostMessage({content})}>post message test</button>
-    </Layout>
+    <div>
+      <TitleBlock/>
+      <PostLists/>
+    </div>
   );
 }
