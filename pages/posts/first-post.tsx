@@ -76,6 +76,50 @@ function PageExplain(){
   )
 }
 
+function ArticleImg(props){
+  return(
+    <div className = "basis-1/2 inline-block rounded-full bg-gray-500/50">
+      <img src = {props.article.img} className = "h-full w-full object-cover rounded-full"/>
+    </div>
+  )
+}
+
+function ArticleIcon(props){
+  return(
+    <button className = "flex flex-row w-8/12 bg-gray-500/50 break-all rounded-full my-8 mx-20" type = "button">
+      <ArticleImg article = {props.article}/>
+    </button>
+  )
+}
+
+
+function OneArticleIconArea(props){
+  return(
+    <form id = {props.article.id}  className = "flex flex-col justify-center items-center" onClick={() => moveToArticlePage(props.article.id)}> 
+      <ArticleIcon article = {props.article}/>
+    </form>
+  )
+}
+
+function moveToArticlePage(props){
+  return(
+    <div>
+    </div>
+  )
+}
+function ArticleDisplayArea(props){
+  // 複数の記事の一覧を表示する領域
+  return(
+    <div>
+      {
+        // 1つ1つの記事を表示していく
+        props.articles.map(article => (
+          <OneArticleIconArea id = {article.id} article = {article} />
+        ))
+      }
+    </div>
+  )
+}
 
 
 function ArticleSearchArea(){
@@ -104,6 +148,7 @@ function ArticleSearchArea(){
   return(
     <div>
       <ArticleSearchForm callback = {setContact}/>
+      <ArticleDisplayArea articles = {posts.articles}/>
     </div>
   )
 }
