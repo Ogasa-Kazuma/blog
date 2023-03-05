@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { useRouter } from 'next/router';
 import Button from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -84,10 +85,48 @@ function ArticleImg(props){
   )
 }
 
+function ArticleInfo(props){
+  return(
+    <div className="basis-1/2">
+      <ArticleTitle article = {props.article}/>
+      <ArticleSummary article = {props.article}/>
+    </div>
+  )
+}
+
+function ArticleTitle(props){
+  return(
+    <div className = "basis-1/2">
+      <div className = "flex flex-col justify-center m-12">
+        <div className = "flex flex-row">
+          <div className = "basis-1/3 font-bold text-2xl">
+            {props.article.title}
+          </div>
+          <div className = "basis-1/3">
+            {props.article.category}
+          </div>
+          <div className = "basis-1/3">
+            {props.article.post_date}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ArticleSummary(props){
+  return(
+    <div className = "basis-1/2">
+      {props.article.content}
+    </div>
+  )
+}
+
 function ArticleIcon(props){
   return(
     <button className = "flex flex-row w-8/12 bg-gray-500/50 break-all rounded-full my-8 mx-20" type = "button">
       <ArticleImg article = {props.article}/>
+      <ArticleInfo article = {props.article}/>
     </button>
   )
 }
@@ -101,11 +140,8 @@ function OneArticleIconArea(props){
   )
 }
 
-function moveToArticlePage(props){
-  return(
-    <div>
-    </div>
-  )
+function moveToArticlePage(articleId){
+  location.href = "/posts/articles/" + articleId;
 }
 function ArticleDisplayArea(props){
   // 複数の記事の一覧を表示する領域
