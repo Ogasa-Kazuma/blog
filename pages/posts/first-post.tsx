@@ -1,3 +1,4 @@
+import React, {useState, useEffect, useRef} from 'react';
 import Button from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -58,10 +59,74 @@ function TitleBlock(){
   )
 }
 
-function PostLists(){
+function PageExplain(){
   return(
     <div>
+      <h2 className="flex flex-row bg-sky-500/60 text-6xl text-white">
+        <div className="basis-1/2 align-bottom ml-8 my-16">
+          What is this page?
+        </div>
+        <div className = "basis-1/2">
+          <div className = "mt-12 mr-12 text-xl">
+            大森は最高です！
+          </div>
+        </div>
+      </h2>
     </div>
+  )
+}
+
+
+
+function ArticleSearchArea(){
+  const [posts, setPosts] = useState({"articles": [{}]});
+  const [contact, setContact] = useState({
+    "post_date": "2023-02-28"
+  });
+  // 検索条件に変更があれば、記事検索APIからfetch
+  useEffect(() => {
+    const apiUrl = 'https://' + location.hostname + '/api/articles' + '?post_date=' + contact.post_date;
+    fetch(apiUrl, {mode: "no-cors"})
+      .then(response => {
+        console.log(response)
+        return response.json()
+      })
+      .then(data => {
+        setPosts(data)
+        console.log(data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }, [contact])
+  
+  
+  return(
+    <div>
+      <ArticleSearchForm callback = {setContact}/>
+    </div>
+  )
+}
+
+function ArticleSearchForm(props){
+  // 投稿日
+  const dateRef = useRef(null);
+  
+  // 投稿日の検索条件が変更されたら上位コンポーネントに通知
+  const onChangeEvent = () => {
+    // なにやってんだろう
+    if(!dateRef.current) return;
+    const post_date = dateRef.current.value;
+    
+    props.callback({"post_date": post_date})
+  }
+  return(
+    <form id = "articleSearchFormId" onChange = {onChangeEvent}>
+      <select id = "post_date" name = "post_date" placeholder = "post_date" ref={dateRef}>
+        <option value = "2022-02-27">2022-02-27</option>
+        <option value = "2022-02-28">2022-02-28</option>
+      </select>
+    </form>
   )
 }
 
@@ -69,7 +134,8 @@ export default function FirstPost(props) {
   return (
     <div>
       <TitleBlock/>
-      <PostLists/>
+      <PageExplain/>
+      <ArticleSearchArea/>
     </div>
   );
 }
