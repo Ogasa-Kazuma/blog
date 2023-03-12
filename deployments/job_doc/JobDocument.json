@@ -1,0 +1,4 @@
+{
+    "jobType": "fetchFile",
+    "fileUrl": "${aws:iot:s3-presigned-url:https://s3.ap-northeast-1.amazonaws.com/dev-message-app-bucket/iot/JobDocument.json}"
+}
